@@ -39,10 +39,10 @@ class App extends Component {
   getClient(event) {
     axios.get('/config/' + this.state.client + '/' + this.state.version, {
     })
-    .then(function (response) {
-      console.log('response***', response.data);
+    .then(function(response) {
+      console.log(response.data);
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.log(error);
     });
     event.preventDefault();

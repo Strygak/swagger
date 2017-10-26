@@ -15,11 +15,11 @@
   "scripts": {
     "start": "node server.js",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "mocha",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "mocha": "^4.0.1",
-    "should": "^13.1.2"
+    "supertest": "^3.0.0"
   }
 }

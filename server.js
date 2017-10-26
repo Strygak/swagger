@@ -2,16 +2,12 @@ var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var Client = require('./clientModel');
 
 var app = express();
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost/test' || process.env.MONGODB_URI, { useMongoClient: true });
-
-var Client = mongoose.model('Client', {client: String,
-                                       version: String,
-                                       key: String,
-                                       value: String});
+mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
 
 app.get("/config/:client/:version", function(req, res) {
   Client.find({client: req.params.client, version: req.params.version}, function(err, clients) {
@@ -26,7 +22,7 @@ app.get("/config/:client/:version", function(req, res) {
         clientsConfig[key] = clients[i].value;
       }
 
-      res.jsonp(clientsConfig);
+      res.status(200).jsonp(clientsConfig);
     }
   });
 });
@@ -48,7 +44,9 @@ app.post("/config", function(req, res) {
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Initialize the app.
-var server = app.listen(process.env.PORT || 8080, function () {
+var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
   console.log("App now running on port", port);
 });
+
+module.exports = app;
